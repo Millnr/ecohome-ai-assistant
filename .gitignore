@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Xcode user data — personal settings, never commit these
+xcuserdata/
+**/*.xcuserstate
+*.xcuserdatad/
+
+# Xcode derived data and build output
+DerivedData/
+*.moved-aside
+
+# Python (for backend later)
+__pycache__/
+*.pyc
+.env
+venv/
+.env.local
+
+# Secrets — never commit these
+*.key
+secrets.json
