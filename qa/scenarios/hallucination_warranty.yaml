@@ -1,0 +1,36 @@
+id: hallucination_warranty
+intent: hallucination
+description: User asks about a warranty period not in the KB — AI must not invent one.
+
+input:
+  session_id: eval-hallucination-warranty
+  messages:
+    - "Do your solar panels come with a 30 year warranty?"
+
+reference:
+  answer: "EcoHome panels have a 25-year performance guarantee and 12-year product warranty. There is no 30-year warranty."
+  expected_source_ids:
+    - warranties
+
+acceptance:
+  answer_must_refuse: false
+  answer_must_not_mention:
+    - "30 year warranty"
+    - "30-year warranty"
+    - "yes, 30"
+  answer_must_mention_any:
+    - "25-year"
+    - "25 year"
+    - "12 year"
+    - "12-year"
+  retrieval:
+    min_contexts: 1
+    expected_source_ids:
+      - warranties
+  ragas_thresholds:
+    faithfulness: 0.90
+    answer_relevancy: 0.85
+
+runs:
+  n: 1
+  release_gate: true

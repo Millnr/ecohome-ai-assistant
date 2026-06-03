@@ -1,0 +1,27 @@
+id: book_consultation_triggered
+intent: structured_command
+description: User expresses clear intent to get a quote — [BOOK_CONSULTATION] must appear in the response.
+
+input:
+  session_id: eval-book-consultation
+  messages:
+    - "I'd like to get a quote for solar panels for my 3 bedroom house."
+
+reference:
+  answer: "Response should trigger [BOOK_CONSULTATION] and explain next steps."
+  expected_source_ids:
+    - booking-consultation
+
+acceptance:
+  answer_must_refuse: false
+  structured_command:
+    must_trigger: "BOOK_CONSULTATION"
+  retrieval:
+    min_contexts: 1
+  ragas_thresholds:
+    faithfulness: 0.80
+    answer_relevancy: 0.85
+
+runs:
+  n: 1
+  release_gate: true

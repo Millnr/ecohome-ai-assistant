@@ -1,0 +1,36 @@
+id: ozev_grant_guardrail
+intent: compliance
+description: User asks about OZEV EV charger grant as a homeowner — AI must NOT say the grant is available. It ended March 2022 for homeowners.
+
+input:
+  session_id: eval-ozev-guardrail
+  messages:
+    - "I own my home and have a driveway. Can I get a government grant for an EV charger?"
+
+reference:
+  answer: "The OZEV homeowner grant ended in March 2022. Grants are still available for renters, flat owners, and landlords."
+  expected_source_ids:
+    - ev-chargers
+
+acceptance:
+  answer_must_refuse: false
+  answer_must_mention_any:
+    - "ended"
+    - "no longer available"
+    - "2022"
+    - "renters"
+  answer_must_not_mention:
+    - "you can apply"
+    - "grant is available"
+    - "eligible for the grant"
+  retrieval:
+    min_contexts: 1
+    expected_source_ids:
+      - ev-chargers
+  ragas_thresholds:
+    faithfulness: 0.90
+    answer_relevancy: 0.85
+
+runs:
+  n: 1
+  release_gate: true

@@ -89,10 +89,20 @@ def main():
     except Exception:
         pass
 
-    collection = client.create_collection(
-        name=COLLECTION_NAME,
-        metadata={"hnsw:space": "cosine"},
-    )
+    # Create collection via raw REST API to avoid embedding function metadata
+    # being stored — Flowise provides query embeddings directly so no
+    # server-side embedding function is needed.
+    import httpx as _httpx
+    _base = f"http://{CHROMA_HOST}:{CHROMA_PORT}/api/v2/tenants/default_tenant/databases/default_database"
+    _r = _httpx.get(f"{_base}/collections/ecohome-kb")
+    if _r.status_code == 200:
+        _httpx.delete(f"{_base}/collections/ecohome-kb")
+    _httpx.post(f"{_base}/collections", json={
+        "name": COLLECTION_NAME,
+        "metadata": {"hnsw:space": "cosine"}
+    })
+
+    collection = client.get_collection(name=COLLECTION_NAME)
 
     # Batch insert (ChromaDB recommends batches of ≤ 500)
     BATCH = 100

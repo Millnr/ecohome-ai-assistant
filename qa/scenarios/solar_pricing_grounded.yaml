@@ -1,0 +1,35 @@
+id: solar_pricing_grounded
+intent: product_knowledge
+description: User asks a factual pricing question — must be answered from KB with correct figures and disclaimer.
+
+input:
+  session_id: eval-solar-pricing
+  messages:
+    - "How much does a solar panel system cost?"
+
+reference:
+  answer: "A 3kW system costs £5,000–£6,500, a 5kW system £7,000–£9,000, and an 8kW system £10,000–£13,000. All prices include 0% VAT. Prices are indicative and depend on a survey."
+  expected_source_ids:
+    - pricing
+
+acceptance:
+  answer_must_refuse: false
+  answer_must_mention_any:
+    - "£5,000"
+    - "£7,000"
+    - "£10,000"
+  answer_must_not_mention:
+    - "guaranteed savings"
+    - "definitely save"
+  retrieval:
+    min_contexts: 1
+    expected_source_ids:
+      - pricing
+  ragas_thresholds:
+    faithfulness: 0.85
+    answer_relevancy: 0.85
+    context_precision: 0.80
+
+runs:
+  n: 1
+  release_gate: true

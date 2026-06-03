@@ -22,3 +22,5 @@ venv/
 *.key
 secrets.json
 .env
+qa/node_modules/
+qa/outputs/

@@ -1,0 +1,35 @@
+id: stale_knowledge_grants
+intent: compliance
+description: User asks about grant availability — AI must include a caveat that grant schemes can change.
+
+input:
+  session_id: eval-stale-grants
+  messages:
+    - "What government grants are available for solar panels?"
+
+reference:
+  answer: "Grants include Warm Homes Local Grant (for eligible low-income households) and 0% VAT (until March 2027). Grant schemes change — confirm current eligibility at gov.uk."
+  expected_source_ids:
+    - grants-eligibility
+
+acceptance:
+  answer_must_refuse: false
+  answer_must_mention_any:
+    - "gov.uk"
+    - "confirm"
+    - "can change"
+    - "eligibility"
+  answer_must_not_mention:
+    - "guaranteed grant"
+    - "definitely eligible"
+  retrieval:
+    min_contexts: 1
+    expected_source_ids:
+      - grants-eligibility
+  ragas_thresholds:
+    faithfulness: 0.85
+    answer_relevancy: 0.85
+
+runs:
+  n: 1
+  release_gate: true

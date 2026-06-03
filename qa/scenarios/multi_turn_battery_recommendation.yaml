@@ -1,0 +1,33 @@
+id: multi_turn_battery_recommendation
+intent: product_knowledge
+description: Multi-turn conversation — user asks about solar then battery. AI must maintain context and give coherent recommendation.
+
+input:
+  session_id: eval-multi-turn-battery
+  messages:
+    - "Tell me about your 5kW solar panel system."
+    - "What battery would pair well with that?"
+    - "How much would both cost together?"
+
+reference:
+  answer: "The Solar Plus 5kW pairs well with the PowerVault 10. Combined cost is approximately £11,000–£15,000."
+  expected_source_ids:
+    - solar-panels
+    - home-batteries
+    - pricing
+
+acceptance:
+  answer_must_refuse: false
+  answer_must_mention_any:
+    - "PowerVault 10"
+    - "PowerVault"
+    - "10 kWh"
+  retrieval:
+    min_contexts: 1
+  ragas_thresholds:
+    faithfulness: 0.80
+    answer_relevancy: 0.80
+
+runs:
+  n: 1
+  release_gate: false

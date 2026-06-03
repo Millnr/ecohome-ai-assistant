@@ -1,23 +1,26 @@
 """
 EcoHome AI Assistant — FastAPI Backend
-Bridges the iOS app ↔ Flowise RAG pipeline.
-Handles: chat routing, session management, Langfuse observability, product data.
+RAG pipeline: ChromaDB retrieval + Claude API generation.
+Handles: chat, session management, Langfuse observability, product data, bookings.
 """
+
+from __future__ import annotations
 
 import uuid
 import time
 import logging
+import asyncio
 from contextlib import asynccontextmanager
 
-import httpx
 import redis.asyncio as aioredis
-from fastapi import FastAPI, HTTPException, Header
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from api.config import settings
 from api.products import PRODUCTS
 from api.observability import track_chat
+from api import rag
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -28,11 +31,12 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     app.state.redis = aioredis.from_url(settings.redis_url, decode_responses=True)
-    app.state.http = httpx.AsyncClient(timeout=60.0)
-    logger.info("EcoHome API started")
+    # Pre-warm the embedding model in a thread (it's CPU-bound)
+    loop = asyncio.get_event_loop()
+    await loop.run_in_executor(None, rag._get_embed_model)
+    logger.info("EcoHome API started — RAG engine ready")
     yield
     await app.state.redis.aclose()
-    await app.state.http.aclose()
     logger.info("EcoHome API shutdown")
 
 
@@ -95,43 +99,37 @@ async def health():
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
     """
-    Main chat endpoint. Routes message to Flowise and returns the AI reply.
-    Detects structured commands in the response (e.g. [BOOK_CONSULTATION]).
+    Main chat endpoint. Retrieves context from ChromaDB, generates reply via
+    Claude API, detects structured commands, tracks via Langfuse.
     """
     session_id = request.session_id or str(uuid.uuid4())
     start = time.monotonic()
 
-    # ── Call Flowise ─────────────────────────────────────────────────────────
+    # ── Load conversation history from Redis ──────────────────────────────────
+    history_key = f"history:{session_id}"
+    raw_history = await app.state.redis.lrange(history_key, 0, -1)
+    import json
+    conversation_history = [json.loads(m) for m in raw_history]
+
+    # ── RAG: retrieve + generate (CPU-bound — run in thread pool) ─────────────
+    loop = asyncio.get_event_loop()
     try:
-        flowise_response = await app.state.http.post(
-            f"{settings.flowise_url}/api/v1/prediction/{settings.flowise_chatflow_id}",
-            headers={"Authorization": f"Bearer {settings.flowise_api_key}"},
-            json={
-                "question": request.message,
-                "sessionId": session_id,
-                "overrideConfig": {},
-            },
+        result = await loop.run_in_executor(
+            None, rag.chat, request.message, conversation_history
         )
-        flowise_response.raise_for_status()
-        data = flowise_response.json()
-    except httpx.HTTPStatusError as e:
-        logger.error(f"Flowise error: {e}")
-        raise HTTPException(status_code=502, detail="AI service unavailable")
+    except Exception as e:
+        logger.error(f"RAG error: {e}", exc_info=True)
+        raise HTTPException(status_code=502, detail="AI service error")
 
-    reply: str = data.get("text", "")
-    sources: list[str] = [
-        doc.get("metadata", {}).get("source", "")
-        for doc in data.get("sourceDocuments", [])
-        if doc.get("metadata", {}).get("source")
-    ]
-
-    # ── Detect structured command ─────────────────────────────────────────────
-    structured_command = None
-    if "[BOOK_CONSULTATION]" in reply:
-        structured_command = "BOOK_CONSULTATION"
-        reply = reply.replace("[BOOK_CONSULTATION]", "").strip()
-
+    reply: str = result["reply"]
+    structured_command: str | None = result["structured_command"]
+    sources: list[str] = result["sources"]
     latency_ms = int((time.monotonic() - start) * 1000)
+
+    # ── Persist turn to Redis conversation history ────────────────────────────
+    await app.state.redis.rpush(history_key, json.dumps({"role": "user", "content": request.message}))
+    await app.state.redis.rpush(history_key, json.dumps({"role": "assistant", "content": reply}))
+    await app.state.redis.expire(history_key, 60 * 60 * 2)  # 2 hour TTL
 
     # ── Langfuse tracking ─────────────────────────────────────────────────────
     await track_chat(

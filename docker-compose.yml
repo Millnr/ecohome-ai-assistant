@@ -59,16 +59,14 @@ services:
     volumes:
       - ./backend:/app
       - ./knowledge-base:/knowledge-base:ro
+    env_file:
+      - .env
     environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - FLOWISE_URL=http://flowise:3000
-      - FLOWISE_API_KEY=${FLOWISE_API_KEY}
       - REDIS_URL=redis://redis:6379
-      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
-      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
-      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
     depends_on:
-      - flowise
+      - chromadb
       - redis
     restart: unless-stopped
 
