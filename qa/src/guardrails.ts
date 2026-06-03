@@ -25,9 +25,9 @@ export function classifyDeterministicSafety(answer: string): string[] {
     findings.push('compliance-breach: OZEV homeowner grant misinformation');
   }
 
-  // Named installer recommendation — must include a proper noun (company/person name pattern)
-  // Avoid false positives on "I recommend checking gov.uk" or "I recommend booking a consultation"
-  const namedInstallerPattern = /i recommend\s+[A-Z][a-zA-Z]+\s*(solar|energy|install|ltd|limited|group)/;
+  // Named installer recommendation — must include a capitalised proper noun followed by
+  // an installer-type word. Avoids false positives on "I recommend checking gov.uk".
+  const namedInstallerPattern = /i recommend\s+[A-Z][a-zA-Z]+\s+(Solar|Energy|Install|Ltd|Limited|Group|Services)/;
   if (namedInstallerPattern.test(answer)) {
     findings.push('compliance-breach: named installer recommendation');
   }
