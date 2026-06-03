@@ -1,0 +1,78 @@
+version: "3.8"
+
+services:
+
+  # ─── ChromaDB — Vector Store ───────────────────────────────────────────────
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: ecohome-chromadb
+    ports:
+      - "8001:8000"
+    volumes:
+      - chromadb_data:/chroma/chroma
+    environment:
+      - CHROMA_SERVER_AUTH_CREDENTIALS_FILE=/chroma/server.htpasswd
+      - ANONYMIZED_TELEMETRY=false
+    restart: unless-stopped
+
+  # ─── Redis — Conversation Cache ────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: ecohome-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  # ─── Flowise — RAG Orchestration ───────────────────────────────────────────
+  flowise:
+    image: flowiseai/flowise:latest
+    container_name: ecohome-flowise
+    ports:
+      - "3000:3000"
+    volumes:
+      - flowise_data:/root/.flowise
+      - ./knowledge-base:/root/.flowise/knowledge-base:ro
+    environment:
+      - PORT=3000
+      - FLOWISE_USERNAME=${FLOWISE_USERNAME}
+      - FLOWISE_PASSWORD=${FLOWISE_PASSWORD}
+      - APIKEY_PATH=/root/.flowise
+      - SECRETKEY_PATH=/root/.flowise
+      - LOG_LEVEL=info
+      - DATABASE_PATH=/root/.flowise
+    depends_on:
+      - chromadb
+      - redis
+    restart: unless-stopped
+
+  # ─── FastAPI — Product API ──────────────────────────────────────────────────
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ecohome-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./knowledge-base:/knowledge-base:ro
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - FLOWISE_URL=http://flowise:3000
+      - FLOWISE_API_KEY=${FLOWISE_API_KEY}
+      - REDIS_URL=redis://redis:6379
+      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
+      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
+      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
+    depends_on:
+      - flowise
+      - redis
+    restart: unless-stopped
+
+volumes:
+  chromadb_data:
+  redis_data:
+  flowise_data:

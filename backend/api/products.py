@@ -1,0 +1,211 @@
+"""
+EcoHome product catalogue.
+Served to the iOS app for product cards displayed alongside chat responses.
+"""
+
+PRODUCTS: dict = {
+
+    # ── Solar Panels ──────────────────────────────────────────────────────────
+
+    "solar-starter-3kw": {
+        "id": "solar-starter-3kw",
+        "name": "EcoHome Solar Starter",
+        "category": "solar",
+        "capacity": "3 kW",
+        "panels": "8 × 375W",
+        "annual_output_kwh": 2600,
+        "roof_space_m2": 16,
+        "price_from_gbp": 5000,
+        "price_to_gbp": 6500,
+        "suitable_for": "1–2 bedroom homes",
+        "install_days": "1 day",
+        "highlights": [
+            "25-year performance guarantee",
+            "MCS certified installation",
+            "Compatible with PowerVault battery",
+            "Smart Export Guarantee eligible",
+        ],
+    },
+    "solar-plus-5kw": {
+        "id": "solar-plus-5kw",
+        "name": "EcoHome Solar Plus",
+        "category": "solar",
+        "capacity": "5 kW",
+        "panels": "12 × 415W",
+        "annual_output_kwh": 4500,
+        "roof_space_m2": 24,
+        "price_from_gbp": 7000,
+        "price_to_gbp": 9000,
+        "suitable_for": "3–4 bedroom homes",
+        "install_days": "1–2 days",
+        "highlights": [
+            "25-year performance guarantee",
+            "MCS certified installation",
+            "Compatible with PowerVault battery",
+            "Smart Export Guarantee eligible",
+        ],
+    },
+    "solar-max-8kw": {
+        "id": "solar-max-8kw",
+        "name": "EcoHome Solar Max",
+        "category": "solar",
+        "capacity": "8 kW",
+        "panels": "18 × 445W",
+        "annual_output_kwh": 7200,
+        "roof_space_m2": 38,
+        "price_from_gbp": 10000,
+        "price_to_gbp": 13000,
+        "suitable_for": "Large homes, high energy users, EV owners",
+        "install_days": "2 days",
+        "highlights": [
+            "25-year performance guarantee",
+            "MCS certified installation",
+            "Ideal for EV charging from solar",
+            "Smart Export Guarantee eligible",
+        ],
+    },
+
+    # ── Home Batteries ────────────────────────────────────────────────────────
+
+    "powervault-5": {
+        "id": "powervault-5",
+        "name": "EcoHome PowerVault 5",
+        "category": "battery",
+        "capacity_kwh": 5,
+        "peak_output_kw": 3,
+        "cycle_life": 6000,
+        "price_from_gbp": 3500,
+        "price_to_gbp": 4500,
+        "warranty_years": 10,
+        "suitable_for": "Small households, Solar Starter owners",
+        "highlights": [
+            "Lithium iron phosphate (LFP) chemistry",
+            "10-year warranty / 70% capacity retention",
+            "Wall-mounted, indoor or garage",
+            "Time-of-use tariff optimisation",
+        ],
+    },
+    "powervault-10": {
+        "id": "powervault-10",
+        "name": "EcoHome PowerVault 10",
+        "category": "battery",
+        "capacity_kwh": 10,
+        "peak_output_kw": 5,
+        "cycle_life": 6000,
+        "price_from_gbp": 5500,
+        "price_to_gbp": 7000,
+        "warranty_years": 10,
+        "suitable_for": "Average households, Solar Plus owners",
+        "highlights": [
+            "Lithium iron phosphate (LFP) chemistry",
+            "10-year warranty / 70% capacity retention",
+            "Stackable — expand later",
+            "Optional blackout backup mode",
+        ],
+    },
+    "powervault-15": {
+        "id": "powervault-15",
+        "name": "EcoHome PowerVault 15",
+        "category": "battery",
+        "capacity_kwh": 15,
+        "peak_output_kw": 7.5,
+        "cycle_life": 6000,
+        "price_from_gbp": 7500,
+        "price_to_gbp": 9500,
+        "warranty_years": 10,
+        "suitable_for": "Large homes, EV owners wanting overnight solar charging",
+        "highlights": [
+            "Lithium iron phosphate (LFP) chemistry",
+            "10-year warranty / 70% capacity retention",
+            "Supports overnight EV charging from stored solar",
+            "Optional blackout backup mode",
+        ],
+    },
+
+    # ── EV Chargers ───────────────────────────────────────────────────────────
+
+    "charge-7": {
+        "id": "charge-7",
+        "name": "EcoHome Charge 7",
+        "category": "ev-charger",
+        "output_kw": 7.4,
+        "connector": "Type 2 (tethered or untethered)",
+        "miles_per_hour": 25,
+        "price_from_gbp": 700,
+        "price_to_gbp": 1000,
+        "ozev_grant_eligible": True,
+        "warranty_years": 3,
+        "highlights": [
+            "OZEV-approved smart charger",
+            "Off-peak tariff scheduling",
+            "Solar integration ready",
+            "Grant available for renters & flat owners (up to £350)",
+        ],
+    },
+    "charge-22": {
+        "id": "charge-22",
+        "name": "EcoHome Charge 22",
+        "category": "ev-charger",
+        "output_kw": 22,
+        "connector": "Type 2 (untethered)",
+        "miles_per_hour": 75,
+        "price_from_gbp": 1000,
+        "price_to_gbp": 1400,
+        "ozev_grant_eligible": False,
+        "warranty_years": 3,
+        "highlights": [
+            "Requires three-phase electricity supply",
+            "Full load balancing",
+            "Solar integration ready",
+            "Ideal for high-mileage EV drivers",
+        ],
+    },
+
+    # ── Smart Thermostats ─────────────────────────────────────────────────────
+
+    "thermiq-basic": {
+        "id": "thermiq-basic",
+        "name": "EcoHome ThermIQ Basic",
+        "category": "thermostat",
+        "type": "Scheduling thermostat",
+        "price_from_gbp": 150,
+        "price_to_gbp": 200,
+        "warranty_years": 2,
+        "highlights": [
+            "7-day scheduling",
+            "Remote app control",
+            "Works with most gas & oil boilers",
+            "DIY-friendly installation",
+        ],
+    },
+    "thermiq-smart": {
+        "id": "thermiq-smart",
+        "name": "EcoHome ThermIQ Smart",
+        "category": "thermostat",
+        "type": "Learning thermostat",
+        "price_from_gbp": 250,
+        "price_to_gbp": 350,
+        "warranty_years": 3,
+        "highlights": [
+            "Learns your routine in 1 week",
+            "Presence detection via phone GPS",
+            "Weather compensation",
+            "Hot water control included",
+        ],
+    },
+    "thermiq-pro": {
+        "id": "thermiq-pro",
+        "name": "EcoHome ThermIQ Pro",
+        "category": "thermostat",
+        "type": "Multi-zone learning thermostat",
+        "price_from_gbp": 400,
+        "price_to_gbp": 500,
+        "warranty_years": 3,
+        "highlights": [
+            "Up to 8 heating zones",
+            "Solar surplus heating mode",
+            "EV charging coordination",
+            "Compatible with heat pumps",
+        ],
+    },
+}

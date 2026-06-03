@@ -21,3 +21,4 @@ venv/
 # Secrets — never commit these
 *.key
 secrets.json
+.env
