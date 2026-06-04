@@ -7,18 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D496BD782FD1C64500A61AF9 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D496BD772FD1C64500A61AF9 /* ChatViewModel.swift */; };
+		D496BD7A2FD1C70B00A61AF9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D496BD712FD1BD9000A61AF9 /* ContentView.swift */; };
 		D4C07A742FAA7C1C002BFAA4 /* EcoHomeAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C07A732FAA7C1C002BFAA4 /* EcoHomeAppApp.swift */; };
-		D4C07A762FAA7C1C002BFAA4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C07A752FAA7C1C002BFAA4 /* ContentView.swift */; };
 		D4C07A782FAA7C20002BFAA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C07A772FAA7C20002BFAA4 /* Assets.xcassets */; };
 		D4C07A7B2FAA7C20002BFAA4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C07A7A2FAA7C20002BFAA4 /* Preview Assets.xcassets */; };
+		D4C938632FD1B99300738861 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C938612FD1B99300738861 /* ChatMessage.swift */; };
+		D4C938642FD1B99300738861 /* BookingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C938622FD1B99300738861 /* BookingRequest.swift */; };
+		D4C938662FD1B9B200738861 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C938652FD1B9B200738861 /* APIService.swift */; };
+		D4C9386A2FD1B9DC00738861 /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C938672FD1B9DC00738861 /* MessageBubble.swift */; };
+		D4C9386B2FD1B9DC00738861 /* BookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C938682FD1B9DC00738861 /* BookingView.swift */; };
+		D4C9386C2FD1B9DC00738861 /* TypingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C938692FD1B9DC00738861 /* TypingIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D496BD712FD1BD9000A61AF9 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D496BD772FD1C64500A61AF9 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		D4C07A702FAA7C1C002BFAA4 /* EcoHomeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EcoHomeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C07A732FAA7C1C002BFAA4 /* EcoHomeAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcoHomeAppApp.swift; sourceTree = "<group>"; };
-		D4C07A752FAA7C1C002BFAA4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D4C07A772FAA7C20002BFAA4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4C07A7A2FAA7C20002BFAA4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D4C938612FD1B99300738861 /* ChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		D4C938622FD1B99300738861 /* BookingRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingRequest.swift; sourceTree = "<group>"; };
+		D4C938652FD1B9B200738861 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		D4C938672FD1B9DC00738861 /* MessageBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		D4C938682FD1B9DC00738861 /* BookingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingView.swift; sourceTree = "<group>"; };
+		D4C938692FD1B9DC00738861 /* TypingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypingIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +46,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D496BD762FD1C60D00A61AF9 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				D496BD772FD1C64500A61AF9 /* ChatViewModel.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
 		D4C07A672FAA7C1C002BFAA4 = {
 			isa = PBXGroup;
 			children = (
@@ -51,11 +73,12 @@
 		D4C07A722FAA7C1C002BFAA4 /* EcoHomeApp */ = {
 			isa = PBXGroup;
 			children = (
+				D496BD762FD1C60D00A61AF9 /* ViewModels */,
+				D496BD712FD1BD9000A61AF9 /* ContentView.swift */,
 				D4C07A832FAA8020002BFAA4 /* Services */,
 				D4C07A822FAA8011002BFAA4 /* Models */,
 				D4C07A812FAA7FFC002BFAA4 /* Views */,
 				D4C07A732FAA7C1C002BFAA4 /* EcoHomeAppApp.swift */,
-				D4C07A752FAA7C1C002BFAA4 /* ContentView.swift */,
 				D4C07A772FAA7C20002BFAA4 /* Assets.xcassets */,
 				D4C07A792FAA7C20002BFAA4 /* Preview Content */,
 			);
@@ -73,6 +96,9 @@
 		D4C07A812FAA7FFC002BFAA4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D4C938682FD1B9DC00738861 /* BookingView.swift */,
+				D4C938672FD1B9DC00738861 /* MessageBubble.swift */,
+				D4C938692FD1B9DC00738861 /* TypingIndicator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -80,6 +106,8 @@
 		D4C07A822FAA8011002BFAA4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D4C938622FD1B99300738861 /* BookingRequest.swift */,
+				D4C938612FD1B99300738861 /* ChatMessage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -87,6 +115,7 @@
 		D4C07A832FAA8020002BFAA4 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D4C938652FD1B9B200738861 /* APIService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -161,7 +190,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4C07A762FAA7C1C002BFAA4 /* ContentView.swift in Sources */,
+				D4C9386C2FD1B9DC00738861 /* TypingIndicator.swift in Sources */,
+				D4C938632FD1B99300738861 /* ChatMessage.swift in Sources */,
+				D4C9386A2FD1B9DC00738861 /* MessageBubble.swift in Sources */,
+				D4C9386B2FD1B9DC00738861 /* BookingView.swift in Sources */,
+				D4C938662FD1B9B200738861 /* APIService.swift in Sources */,
+				D496BD7A2FD1C70B00A61AF9 /* ContentView.swift in Sources */,
+				D4C938642FD1B99300738861 /* BookingRequest.swift in Sources */,
+				D496BD782FD1C64500A61AF9 /* ChatViewModel.swift in Sources */,
 				D4C07A742FAA7C1C002BFAA4 /* EcoHomeAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
