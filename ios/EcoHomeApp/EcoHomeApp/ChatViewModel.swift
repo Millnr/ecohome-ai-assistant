@@ -9,6 +9,13 @@ class ChatViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     @Published var showBookingSheet: Bool = false
+    @Published var showSessionEndPrompt: Bool = false
+
+    private let farewellPhrases = [
+        "goodbye", "bye", "take care", "thanks for your help",
+        "that's all", "no more questions", "cheers", "thank you, goodbye",
+        "see you", "all done", "that's everything"
+    ]
 
     private let api = APIService()
     private(set) var sessionId: String? = nil
@@ -21,8 +28,8 @@ class ChatViewModel: ObservableObject {
         ))
     }
 
-    func sendMessage() async {
-        let text = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+    func sendMessage(withText providedText: String? = nil) async {
+        let text = (providedText ?? inputText).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty, !isLoading else { return }
 
         // Add user message
@@ -48,6 +55,14 @@ class ChatViewModel: ObservableObject {
             if response.structuredCommand == "BOOK_CONSULTATION" {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.showBookingSheet = true
+                }
+            }
+
+            // Detect farewell in user message
+            let lower = text.lowercased()
+            if farewellPhrases.contains(where: { lower.contains($0) }) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    self.showSessionEndPrompt = true
                 }
             }
         } catch {

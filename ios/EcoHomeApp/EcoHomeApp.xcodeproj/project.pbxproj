@@ -80,7 +80,7 @@
 				D4C07A812FAA7FFC002BFAA4 /* Views */,
 				D4C07A732FAA7C1C002BFAA4 /* EcoHomeAppApp.swift */,
 				D4C07A772FAA7C20002BFAA4 /* Assets.xcassets */,
-				D4C07A792FAA7C20002BFAA4 /* Preview Content */,
+					D4C07A792FAA7C20002BFAA4 /* Preview Content */,
 			);
 			path = EcoHomeApp;
 			sourceTree = "<group>";
@@ -178,7 +178,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4C07A7B2FAA7C20002BFAA4 /* Preview Assets.xcassets in Resources */,
+					D4C07A7B2FAA7C20002BFAA4 /* Preview Assets.xcassets in Resources */,
 				D4C07A782FAA7C20002BFAA4 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

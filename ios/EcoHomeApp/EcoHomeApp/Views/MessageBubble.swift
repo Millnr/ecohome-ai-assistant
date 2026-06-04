@@ -20,10 +20,11 @@ struct MessageBubble: View {
                 Text(message.text)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
-                    .background(bubbleColor)
-                    .foregroundColor(isUser ? .white : .primary)
+                    .background(bubbleBackground)
+                    .foregroundColor(isUser ? .white : .black.opacity(0.85))
                     .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                     .font(.body)
+                    .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
 
                 // ── Sources + feedback (assistant only) ────────────────────
                 if !isUser && !isSystem {
@@ -48,7 +49,7 @@ struct MessageBubble: View {
                             } label: {
                                 Image(systemName: feedbackGiven == 1 ? "hand.thumbsup.fill" : "hand.thumbsup")
                                     .font(.caption)
-                                    .foregroundColor(feedbackGiven == 1 ? .green : .secondary)
+                                    .foregroundColor(feedbackGiven == 1 ? .ecoGreen : .secondary)
                             }
                             Button {
                                 feedbackGiven = -1
@@ -70,10 +71,16 @@ struct MessageBubble: View {
         .padding(.vertical, 2)
     }
 
-    private var bubbleColor: Color {
-        if isUser { return Color.ecoGreen }
-        if isSystem { return Color(.systemOrange).opacity(0.15) }
-        return Color(.secondarySystemBackground)
+    @ViewBuilder
+    private var bubbleBackground: some View {
+        if isUser {
+            Color.ecoGreen
+        } else if isSystem {
+            Color.orange.opacity(0.75)
+        } else {
+            // Assistant bubble: clearly white frosted
+            Color.white.opacity(0.82)
+        }
     }
 }
 

@@ -127,6 +127,10 @@ struct BookingView: View {
         do {
             let response = try await viewModel.submitBooking(booking)
             confirmationMessage = response.message
+            // Auto-dismiss after showing confirmation
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                dismiss()
+            }
         } catch {
             errorText = error.localizedDescription
             showError = true
